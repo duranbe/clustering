@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 class KMean:
 
@@ -14,6 +15,9 @@ class KMean:
 		# Generating random points for cluster's positions
 		self.middles = np.random.randint(low=0,high=20,size=(k,self.dim))/2   
 		
+		self.code_color = ['red','green','blue','black','yellow','orange','purple','brown','grey']
+		self.colors = []
+		self.colormap = {}
 
 	def _euclidean_distance(self):
 
@@ -43,6 +47,31 @@ class KMean:
 		args = np.argmin(d,axis=0)
 	    
 		return(args)
+
+	def _scatter_plot(self):
+		k = self.k
+		n = self.n
+		x = self.x
+		l = self.dim
+		middles = self.middles
+
+		points = np.broadcast_to(x,(k,n,l))
+		code_color = self.code_color
+		colors = self.colors
+		colormap = self.colormap 
+
+		for i in range(k):
+			colormap[i] = code_color[i]
+			colors.append(code_color[i])
+		
+		plt.scatter(points[:,0],points[:,1],color='blue')
+		plt.scatter(middles[:,0],middles[:,1],color= colors)
+		for i in range(0,n):
+			plt.scatter(points[i][0],points[i][1],color = colormap[self.belongs[i]])
+			plt.text(points[i][0], points[i][1], str(i), fontsize=15)
+		for i in range(0,k): 
+			plt.text(middles[i,0],middles[i,1], chr(i+65), fontsize=15)
+		
 
 	def _new_middles(self):
 
@@ -74,4 +103,6 @@ class KMean:
 		for i in range(n_iter):
 			self.belongs = dist_function()
 			self.middles = self._new_middles()
+		self._scatter_plot()
+		plt.show()
 
