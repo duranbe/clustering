@@ -47,6 +47,33 @@ class KMean:
 		args = np.argmin(d,axis=0)
 	    
 		return(args)
+	
+	def _manhattan_distance(self):
+		k = self.k
+		n = self.n
+		x = self.x
+		l = self.dim
+		middles = self.middles
+		
+	   # (k,n,l)
+		points = np.broadcast_to(x,(k,n,l))
+		
+		c = np.zeros((k,n,l))
+
+	    # Need to find a numpy way to do this to avoid loops
+	    # (k,n,l)
+		for i in range(0,k):
+			c[i] = np.broadcast_to(middles[i],(n,l))
+	    
+	    # Manhattan Distance
+	    # (k,n) because distance is a scalar here
+		d = np.sum(abs(points-c),axis=2 )
+		
+	    # For each point get the argument of the minimum distance
+		args = np.argmin(d,axis=0)
+	    
+		return(args)
+		
 
 	def _scatter_plot(self):
 		k = self.k
