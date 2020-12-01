@@ -51,11 +51,10 @@ class KMean:
 	def _scatter_plot(self):
 		k = self.k
 		n = self.n
-		x = self.x
+		points = self.x
 		l = self.dim
 		middles = self.middles
 
-		points = np.broadcast_to(x,(k,n,l))
 		code_color = self.code_color
 		colors = self.colors
 		colormap = self.colormap 
