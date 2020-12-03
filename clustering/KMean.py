@@ -125,6 +125,9 @@ class KMean:
 
 		if self.distance == 'euclidean':
 			dist_function = self._euclidean_distance
+		elif self.distance == 'manhattan': 
+			dist_function = self._manhattan_distance
+		
 
 		for i in range(n_iter):
 			self.belongs = dist_function()
