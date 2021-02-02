@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.spatial import distance
 
 class KMean:
 
@@ -73,7 +74,35 @@ class KMean:
 		args = np.argmin(d,axis=0)
 	    
 		return(args)
+	
+	def _cosine_distance(self):
+		k = self.k
+		n = self.n
+		x = self.x
+		l = self.dim
+		middles = self.middles
 		
+	   # (k,n,l)
+		points = np.broadcast_to(x,(k,n,l))
+		
+		c = np.zeros((k,n,l))
+
+	    # Need to find a numpy way to do this to avoid loops
+	    # (k,n,l)
+		for i in range(0,k):
+			c[i] = np.broadcast_to(middles[i],(n,l))
+	    
+	    # Cosine Distance
+	    # (k,n) because distance is a scalar here
+		d = np.zeros((k,n))
+    		for i in range(0,k):
+        		for j in range(0,n):
+            			d[i][j] = scipy.spatial.distance.cosine(points[i][j],c[i][j])# cosine distance
+		
+	    # For each point get the argument of the minimum distance
+		args = np.argmin(d,axis=0)
+	    
+		return(args)		
 
 	def _scatter_plot(self):
 		k = self.k
@@ -127,6 +156,8 @@ class KMean:
 			dist_function = self._euclidean_distance
 		elif self.distance == 'manhattan': 
 			dist_function = self._manhattan_distance
+		elif self.distance == 'cosine': 
+			dist_function = self._cosine_distance
 		
 
 		for i in range(n_iter):
