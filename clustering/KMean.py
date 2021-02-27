@@ -95,9 +95,9 @@ class KMean:
 	    # Cosine Distance
 	    # (k,n) because distance is a scalar here
 		d = np.zeros((k,n))
-    		for i in range(0,k):
-        		for j in range(0,n):
-            			d[i][j] = scipy.spatial.distance.cosine(points[i][j],c[i][j])# cosine distance
+		for i in range(0,k):
+			for j in range(0,n):
+				d[i][j] = scipy.spatial.distance.cosine(points[i][j],c[i][j])# cosine distance
 		
 	    # For each point get the argument of the minimum distance
 		args = np.argmin(d,axis=0)
