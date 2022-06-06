@@ -30,6 +30,12 @@ class KMean:
         self.colors = []
         self.colormap = {}
 
+        self.distance_function = {
+            "euclidean": self._euclidean_distance,
+            "manhattan": self._manhattan_distance,
+            "cosine": self._cosine_distance
+        }
+
     def _euclidean_distance(self):
 
         k = self.k
@@ -160,12 +166,7 @@ class KMean:
     def run(self, n_iter=5):
         # Running the KMean algorithm
 
-        if self.distance == "euclidean":
-            dist_function = self._euclidean_distance
-        elif self.distance == "manhattan":
-            dist_function = self._manhattan_distance
-        elif self.distance == "cosine":
-            dist_function = self._cosine_distance
+        dist_function = self.distance_function[self.distance]
 
         for i in range(n_iter):
             self.belongs = dist_function()
